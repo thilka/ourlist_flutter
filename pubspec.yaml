@@ -1,5 +1,5 @@
 name: ourlist_flutter
-description: An implemenation of ourlist using Flutter
+description: An implementation of ourlist using Flutter
 
 dependencies:
   flutter:

@@ -1,6 +1,6 @@
 # ourlist_flutter
 
-An implemenation of ourlist using Flutter
+An implementation of ourlist using Flutter
 
 ## Getting Started
 

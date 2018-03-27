@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'detailsitem.dart';
 
 class DetailsList extends StatefulWidget {
   @override
@@ -8,22 +9,9 @@ class DetailsList extends StatefulWidget {
 class _DetailsListState extends State<DetailsList> {
 
   final _tiles = [
-    createListTile("One"),
-    createListTile("Two"),
+    new DetailsItem(text: "One"),
+    new DetailsItem(text: "Two"),
   ];
-  static Widget createListTile(String input) {
-    ListTile tile = new ListTile(title: new Text(input));
-  return new Dismissible(
-      key: new Key(input),
-      direction: DismissDirection.endToStart,
-      background: new Container(
-        child: new Icon(Icons.delete),
-        color: Colors.red,
-      ),
-      child: tile,
-      onDismissed: null
-    );
-  }
 
   var _editMode = false;
 
@@ -72,7 +60,7 @@ class _DetailsListState extends State<DetailsList> {
   void _inputSubmitted(String input) {
     setState(() {
       _editMode = false;
-      _tiles.add(createListTile(input));
+      _tiles.add(new DetailsItem(text: input));
     });
   }
 

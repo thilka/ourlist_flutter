@@ -11,7 +11,19 @@ class _DetailsListState extends State<DetailsList> {
     createListTile("One"),
     createListTile("Two"),
   ];
-  static ListTile createListTile(String input) => new ListTile(title: new Text(input));
+  static Widget createListTile(String input) {
+    ListTile tile = new ListTile(title: new Text(input));
+  return new Dismissible(
+      key: new Key(input),
+      direction: DismissDirection.endToStart,
+      background: new Container(
+        child: new Icon(Icons.delete),
+        color: Colors.red,
+      ),
+      child: tile,
+      onDismissed: null
+    );
+  }
 
   var _editMode = false;
 
@@ -63,4 +75,5 @@ class _DetailsListState extends State<DetailsList> {
       _tiles.add(createListTile(input));
     });
   }
+
 }

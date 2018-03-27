@@ -22,7 +22,7 @@ class OurListApp extends StatefulWidget {
 
 class OurListAppState extends State<OurListApp> {
 
-  var _items = [1, 2, 3, 4, 5];
+  final _mainItems = ['Aldi', 'dm', 'Baumarkt'];
 
   @override
   Widget build(BuildContext context) {
@@ -34,14 +34,14 @@ class OurListAppState extends State<OurListApp> {
           ],
         ),
         body: new Center(
-          child: new MainList(items: _items),
+          child: new MainList(items: _mainItems),
         )
     );
   }
 
   void _addItem() {
     setState(() {
-      _items.add(_items.length + 1);
+      _mainItems.add((_mainItems.length + 1).toString());
     });
   }
 }

@@ -23,11 +23,11 @@ class MainListState extends State<MainList> {
         final index = i ~/ 2;
 
         if (index < widget.items.length) {
-          final int txt = widget.items[index];
+          final String txt = widget.items[index];
 
           final container = new Container(
             child: new Text(
-              "Item $txt",
+              "$txt",
               style: const TextStyle(fontSize: 18.0),
             ),
             padding: const EdgeInsets.all(8.0),

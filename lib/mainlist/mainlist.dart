@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 
 class MainList extends StatefulWidget {
+  MainList({Key key, @required this.items}) : super(key:key);
+
+  final items;
+
   @override
   createState() => new MainListState();
 }
 
 class MainListState extends State<MainList> {
-
-  final _items = [1, 2, 3, 4, 5];
 
   @override
   Widget build(BuildContext context) {
@@ -19,8 +22,9 @@ class MainListState extends State<MainList> {
 
         final index = i ~/ 2;
 
-        if (index < _items.length) {
-          final int txt = _items[index];
+        if (index < widget.items.length) {
+          final int txt = widget.items[index];
+
           final container = new Container(
             child: new Text(
               "Item $txt",

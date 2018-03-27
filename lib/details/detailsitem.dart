@@ -20,12 +20,13 @@ class DetailsItem extends StatelessWidget {
               new Expanded(
                 child: new Text(''),
               ),
-              new Icon(Icons.delete),
+              new Icon(Icons.delete_forever, color: Colors.white),
             ],
           ),
           color: Colors.red
         ),
         child: tile,
+        // TODO: add dismiss callback
         onDismissed: null
     );
   }

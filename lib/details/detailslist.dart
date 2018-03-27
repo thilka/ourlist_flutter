@@ -24,25 +24,31 @@ class _DetailsListState extends State<DetailsList> {
     ).toList();
 
     if (_editMode) {
-      divided.add(new ListTile(
-          title: new TextField(
-            autofocus: true,
-            onSubmitted: _inputSubmitted,
-          ),
-        ),
-      );
+      divided.add(createInputField);
     } else {
-      divided.add(new ListTile(
-          title: new IconButton(
-            icon: new Icon(Icons.add),
-            onPressed: _addItem,
-            color: Colors.blue,
-          ),
-        )
-      );
+      divided.add(createAddButton);
     }
 
     return new ListView(children: divided);
+  }
+
+  ListTile get createInputField {
+    return new ListTile(
+      title: new TextField(
+        autofocus: true,
+        onSubmitted: _inputSubmitted,
+      ),
+    );
+  }
+
+  ListTile get createAddButton {
+    return new ListTile(
+      title: new IconButton(
+        icon: new Icon(Icons.add),
+        onPressed: _addItem,
+        color: Colors.blue,
+      ),
+    );
   }
 
   void _addItem() {

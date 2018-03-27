@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
+import 'package:ourlist_flutter/details/detailslist.dart';
 
 class MainList extends StatefulWidget {
   MainList({Key key, @required this.items}) : super(key:key);
@@ -25,19 +26,31 @@ class MainListState extends State<MainList> {
         if (index < widget.items.length) {
           final String txt = widget.items[index];
 
-          final container = new Container(
-            child: new Text(
+          final listItem = new ListTile(
+            title: new Text(
               "$txt",
               style: const TextStyle(fontSize: 18.0),
             ),
-            padding: const EdgeInsets.all(8.0),
+            onTap: () {
+              _goToDetails(txt);
+            },
           );
 
-          return container;
+          return listItem;
         }
       },
     );
 
     return list;
+  }
+
+  void _goToDetails(String txt) {
+    Navigator.of(context).push(
+      new MaterialPageRoute(
+        builder: (context) {
+          return new DetailsList(name: txt);
+        },
+      )
+    );
   }
 }

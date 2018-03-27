@@ -15,8 +15,7 @@ void main() {
     await tester.pumpWidget(new MyApp());
 
     // Verify that we display Hello World.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('16'), findsNothing);
+    expect(find.text('OurList'), findsOneWidget);
 
   });
 }

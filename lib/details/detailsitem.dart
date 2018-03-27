@@ -14,12 +14,19 @@ class DetailsItem extends StatelessWidget {
         key: new Key(text),
         direction: DismissDirection.endToStart,
         background: new Container(
-          child: new Icon(Icons.delete),
-          color: Colors.red,
+          padding: const EdgeInsets.all(16.0),
+          child: new Row(
+            children: <Widget>[
+              new Expanded(
+                child: new Text(''),
+              ),
+              new Icon(Icons.delete),
+            ],
+          ),
+          color: Colors.red
         ),
         child: tile,
         onDismissed: null
     );
   }
-
 }

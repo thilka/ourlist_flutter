@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
-import 'package:ourlist_flutter/details/detailslist.dart';
+import 'package:ourlist_flutter/details/detailslistpage.dart';
 
 class MainList extends StatefulWidget {
   MainList({Key key, @required this.items}) : super(key:key);
@@ -48,7 +48,7 @@ class MainListState extends State<MainList> {
     Navigator.of(context).push(
       new MaterialPageRoute(
         builder: (context) {
-          return new DetailsList(name: txt);
+          return new DetailsListPage(name: txt);
         },
       )
     );

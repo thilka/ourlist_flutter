@@ -34,7 +34,7 @@ class OurListAppState extends State<OurListApp> {
           ],
         ),
         body: new Center(
-          child: new MainList(items: _mainItems),
+          child: new MainList(items: _mainItems, removeCallback: _removeItem),
         )
     );
   }
@@ -42,6 +42,12 @@ class OurListAppState extends State<OurListApp> {
   void _addItem() {
     setState(() {
       _mainItems.add((_mainItems.length + 1).toString());
+    });
+  }
+
+  void _removeItem(String item) {
+    setState(() {
+      _mainItems.remove(item);
     });
   }
 }

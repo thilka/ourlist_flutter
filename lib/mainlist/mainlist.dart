@@ -3,9 +3,10 @@ import 'package:flutter/foundation.dart';
 import 'package:ourlist_flutter/details/detailslistpage.dart';
 
 class MainList extends StatefulWidget {
-  MainList({Key key, @required this.items}) : super(key:key);
+  MainList({Key key, @required this.items, @required this.removeCallback}) : super(key:key);
 
-  final items;
+  final List<String> items;
+  final removeCallback;
 
   @override
   createState() => new MainListState();
@@ -26,6 +27,7 @@ class MainListState extends State<MainList> {
         if (index < widget.items.length) {
           final String txt = widget.items[index];
 
+
           final listItem = new ListTile(
             title: new Text(
               "$txt",
@@ -36,7 +38,28 @@ class MainListState extends State<MainList> {
             },
           );
 
-          return listItem;
+          final dismissibleListItem = new Dismissible(
+            key: new Key(txt),
+            child: listItem,
+            direction: DismissDirection.endToStart,
+            background: new Container(
+                padding: const EdgeInsets.all(16.0),
+                child: new Row(
+                  children: <Widget>[
+                    new Expanded(
+                      child: new Text(''),
+                    ),
+                    new Icon(Icons.delete_forever, color: Colors.white),
+                  ],
+                ),
+                color: Colors.red
+            ),
+            onDismissed: (DismissDirection direction) {
+              widget.removeCallback(txt);
+            },
+          );
+
+          return dismissibleListItem;
         }
       },
     );

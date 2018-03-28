@@ -13,6 +13,7 @@ class DetailsItem extends StatelessWidget {
     ListTile tile = new ListTile(title: new Text(text));
     return new Dismissible(
         key: new Key(text),
+        child: tile,
         direction: DismissDirection.endToStart,
         background: new Container(
           padding: const EdgeInsets.all(16.0),
@@ -26,7 +27,6 @@ class DetailsItem extends StatelessWidget {
           ),
           color: Colors.red
         ),
-        child: tile,
         onDismissed: (DismissDirection direction) { callback(this); }
     );
   }

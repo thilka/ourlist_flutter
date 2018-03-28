@@ -1,18 +1,32 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-class DetailsItem extends StatelessWidget {
-
+class DetailsItem extends StatefulWidget {
   DetailsItem({Key key, @required this.text, @required this.callback});
 
   final text;
   final callback;
 
   @override
+  createState() => new DetailsItemState();
+}
+
+class DetailsItemState extends State<DetailsItem> {
+
+  bool _checked = false;
+
+  @override
   Widget build(BuildContext context) {
-    ListTile tile = new ListTile(title: new Text(text));
+    Widget tile = new Container(
+      child: new ListTile(
+        title: new Text(widget.text),
+        leading: new Checkbox(value: _checked, onChanged: _onValueChanged),
+        onTap: () { _onValueChanged(!_checked); },
+      ),
+      color: _checked ? Colors.lightGreen : null,
+    );
     return new Dismissible(
-        key: new Key(text),
+        key: new Key(widget.text),
         child: tile,
         direction: DismissDirection.endToStart,
         background: new Container(
@@ -27,7 +41,13 @@ class DetailsItem extends StatelessWidget {
           ),
           color: Colors.red
         ),
-        onDismissed: (DismissDirection direction) { callback(this); }
+        onDismissed: (DismissDirection direction) { widget.callback(this); }
     );
+  }
+
+  void _onValueChanged(bool newValue) {
+    setState(() {
+      _checked = newValue;
+    });
   }
 }

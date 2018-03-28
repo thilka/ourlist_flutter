@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 
 class DetailsItem extends StatelessWidget {
 
-  DetailsItem({Key key, @required this.text});
+  DetailsItem({Key key, @required this.text, @required this.callback});
 
   final text;
+  final callback;
 
   @override
   Widget build(BuildContext context) {
@@ -26,8 +27,7 @@ class DetailsItem extends StatelessWidget {
           color: Colors.red
         ),
         child: tile,
-        // TODO: add dismiss callback
-        onDismissed: null
+        onDismissed: (DismissDirection direction) { callback(this); }
     );
   }
 }

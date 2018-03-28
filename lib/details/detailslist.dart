@@ -8,15 +8,19 @@ class DetailsList extends StatefulWidget {
 
 class _DetailsListState extends State<DetailsList> {
 
-  final _tiles = [
-    new DetailsItem(text: "One"),
-    new DetailsItem(text: "Two"),
-  ];
+  _DetailsListState() {
+    _tiles.add(new DetailsItem(text: "One", callback: _dismissItem));
+    _tiles.add(new DetailsItem(text: "Two", callback: _dismissItem));
+  }
+
+  final List<DetailsItem> _tiles = [];
+
 
   var _editMode = false;
 
   @override
   Widget build(BuildContext context) {
+
     final divided = ListTile
         .divideTiles(
       context: context,
@@ -60,8 +64,12 @@ class _DetailsListState extends State<DetailsList> {
   void _inputSubmitted(String input) {
     setState(() {
       _editMode = false;
-      _tiles.add(new DetailsItem(text: input));
+      _tiles.add(new DetailsItem(text: input, callback: _dismissItem));
     });
   }
 
+  void _dismissItem(DetailsItem item) {
+    _tiles.remove(item);
+    setState(() {});
+  }
 }

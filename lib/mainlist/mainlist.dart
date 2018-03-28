@@ -20,13 +20,8 @@ class MainListState extends State<MainList> {
     final list = new ListView.builder(
       padding: const EdgeInsets.all(2.0),
       itemBuilder: (context, i) {
-        if (i.isOdd) return new Divider();
-
-        final index = i ~/ 2;
-
-        if (index < widget.items.length) {
-          final String txt = widget.items[index];
-
+        if (i < widget.items.length) {
+          final String txt = widget.items[i];
 
           final listItem = new ListTile(
             title: new Text(

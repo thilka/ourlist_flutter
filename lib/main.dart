@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:ourlist_flutter/mainlist/mainlist.dart';
 
 void main() => runApp(new MyApp());
+
+final reference = FirebaseDatabase.instance.reference();
 
 class MyApp extends StatelessWidget {
 
@@ -23,6 +26,17 @@ class OurListApp extends StatefulWidget {
 class OurListAppState extends State<OurListApp> {
 
   final _mainItems = ['Aldi', 'dm', 'Baumarkt'];
+
+  @override
+  void initState() {
+    super.initState();
+    reference.once()
+        .then(
+          (DataSnapshot snapshot) {
+            debugPrint(snapshot.toString());
+          }
+        );
+  }
 
   @override
   Widget build(BuildContext context) {

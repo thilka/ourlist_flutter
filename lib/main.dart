@@ -22,12 +22,6 @@ class OurListApp extends StatefulWidget {
   createState() => new OurListAppState();
 }
 
-class MainItem {
-  final String key;
-  final String name;
-  MainItem(this.key, this.name);
-}
-
 final reference = FirebaseDatabase.instance.reference();
 
 class OurListAppState extends State<OurListApp> {

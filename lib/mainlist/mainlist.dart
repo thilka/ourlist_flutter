@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:ourlist_flutter/details/detailslistpage.dart';
-import 'package:ourlist_flutter/main.dart';
 
 class MainList extends StatefulWidget {
   MainList({Key key, @required this.items, @required this.removeCallback}) : super(key:key);
@@ -13,6 +12,12 @@ class MainList extends StatefulWidget {
   createState() => new MainListState();
 }
 
+class MainItem {
+  final String key;
+  final String name;
+  MainItem(this.key, this.name);
+}
+
 class MainListState extends State<MainList> {
 
   @override
@@ -22,7 +27,8 @@ class MainListState extends State<MainList> {
       padding: const EdgeInsets.all(2.0),
       itemBuilder: (context, i) {
         if (i < widget.items.length) {
-          final String txt = widget.items[i].name;
+          var item = widget.items[i];
+          final String txt = item.name;
 
           final listItem = new ListTile(
             title: new Text(
@@ -30,7 +36,7 @@ class MainListState extends State<MainList> {
               style: const TextStyle(fontSize: 18.0),
             ),
             onTap: () {
-              _goToDetails(txt);
+              _goToDetails(item);
             },
           );
 
@@ -63,11 +69,11 @@ class MainListState extends State<MainList> {
     return list;
   }
 
-  void _goToDetails(String txt) {
+  void _goToDetails(MainItem item) {
     Navigator.of(context).push(
       new MaterialPageRoute(
         builder: (context) {
-          return new DetailsListPage(name: txt);
+          return new DetailsListPage(item: item);
         },
       )
     );

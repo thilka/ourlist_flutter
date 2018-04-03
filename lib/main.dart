@@ -4,7 +4,6 @@ import 'package:ourlist_flutter/mainlist/mainlist.dart';
 
 void main() => runApp(new MyApp());
 
-final reference = FirebaseDatabase.instance.reference();
 
 class MyApp extends StatelessWidget {
 
@@ -23,19 +22,37 @@ class OurListApp extends StatefulWidget {
   createState() => new OurListAppState();
 }
 
+class MainItem {
+  final String key;
+  final String name;
+  MainItem(this.key, this.name);
+}
+
+final reference = FirebaseDatabase.instance.reference();
+
 class OurListAppState extends State<OurListApp> {
 
-  final _mainItems = ['Aldi', 'dm', 'Baumarkt'];
+  final List<MainItem> _mainItems = [];
 
   @override
   void initState() {
     super.initState();
-    reference.once()
-        .then(
-          (DataSnapshot snapshot) {
-            debugPrint(snapshot.toString());
-          }
-        );
+
+    _fetchData();
+  }
+
+  _fetchData() async {
+    List<MainItem> items = [];
+
+    DataSnapshot response = await reference.once();
+    Map<String, dynamic> map = response.value["projects"];
+    map.forEach((key, value) {
+      items.add(new MainItem(key, value["name"]));
+    });
+    setState(() {
+      _mainItems.addAll(items);
+
+    });
   }
 
   @override
@@ -55,7 +72,8 @@ class OurListAppState extends State<OurListApp> {
 
   void _addItem() {
     setState(() {
-      _mainItems.add((_mainItems.length + 1).toString());
+      var i = (_mainItems.length + 1);
+      _mainItems.add(new MainItem(i.toString(), i.toString()));
     });
   }
 

@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:ourlist_flutter/details/detailslistpage.dart';
+import 'package:ourlist_flutter/main.dart';
 
 class MainList extends StatefulWidget {
   MainList({Key key, @required this.items, @required this.removeCallback}) : super(key:key);
 
-  final List<String> items;
+  final List<MainItem> items;
   final removeCallback;
 
   @override
@@ -21,7 +22,7 @@ class MainListState extends State<MainList> {
       padding: const EdgeInsets.all(2.0),
       itemBuilder: (context, i) {
         if (i < widget.items.length) {
-          final String txt = widget.items[i];
+          final String txt = widget.items[i].name;
 
           final listItem = new ListTile(
             title: new Text(

@@ -1,30 +1,16 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'detailsitem.dart';
 
 class DetailsList extends StatefulWidget {
+  DetailsList({Key key, @required this.items});
+
+  final Iterable<dynamic> items;
   @override
   createState() => new _DetailsListState();
 }
 
 class _DetailsListState extends State<DetailsList> {
-
-  _DetailsListState() {
-    _tiles.add(new DetailsItem(text: "One", callback: _dismissItem));
-    _tiles.add(new DetailsItem(text: "Two", callback: _dismissItem));
-    _tiles.add(new DetailsItem(text: "Three", callback: _dismissItem));
-    _tiles.add(new DetailsItem(text: "Four", callback: _dismissItem));
-    _tiles.add(new DetailsItem(text: "Five", callback: _dismissItem));
-    _tiles.add(new DetailsItem(text: "Six", callback: _dismissItem));
-    _tiles.add(new DetailsItem(text: "Seven", callback: _dismissItem));
-    _tiles.add(new DetailsItem(text: "Eight", callback: _dismissItem));
-    _tiles.add(new DetailsItem(text: "Nine", callback: _dismissItem));
-    _tiles.add(new DetailsItem(text: "Ten", callback: _dismissItem));
-    _tiles.add(new DetailsItem(text: "Eleven", callback: _dismissItem));
-    _tiles.add(new DetailsItem(text: "Twelve", callback: _dismissItem));
-    _tiles.add(new DetailsItem(text: "Thirteen", callback: _dismissItem));
-    _tiles.add(new DetailsItem(text: "Fourteen", callback: _dismissItem));
-    _tiles.add(new DetailsItem(text: "Fifteen", callback: _dismissItem));
-  }
 
   final List<DetailsItem> _tiles = [];
   final ScrollController _scrollController = new ScrollController();
@@ -33,6 +19,11 @@ class _DetailsListState extends State<DetailsList> {
 
   @override
   Widget build(BuildContext context) {
+    _tiles.clear();
+
+    widget.items.forEach((element) {
+      _tiles.add(new DetailsItem(text: element, callback: _dismissItem));
+    });
 
     final divided = ListTile
         .divideTiles(

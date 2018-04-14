@@ -40,26 +40,7 @@ class MainListState extends State<MainList> {
             },
           );
 
-          final dismissibleListItem = new Dismissible(
-            key: new Key(txt),
-            child: listItem,
-            direction: DismissDirection.endToStart,
-            background: new Container(
-                padding: const EdgeInsets.all(16.0),
-                child: new Row(
-                  children: <Widget>[
-                    new Expanded(
-                      child: new Text(''),
-                    ),
-                    new Icon(Icons.delete_forever, color: Colors.white),
-                  ],
-                ),
-                color: Colors.red
-            ),
-            onDismissed: (DismissDirection direction) {
-              widget.removeCallback(txt);
-            },
-          );
+          Dismissible dismissibleListItem = wrapInDismissibleItem(txt, listItem);
 
           return dismissibleListItem;
         }
@@ -67,6 +48,30 @@ class MainListState extends State<MainList> {
     );
 
     return list;
+  }
+
+  Dismissible wrapInDismissibleItem(String txt, ListTile listItem) {
+    final dismissibleListItem = new Dismissible(
+      key: new Key(txt),
+      child: listItem,
+      direction: DismissDirection.endToStart,
+      background: new Container(
+          padding: const EdgeInsets.all(16.0),
+          child: new Row(
+            children: <Widget>[
+              new Expanded(
+                child: new Text(''),
+              ),
+              new Icon(Icons.delete_forever, color: Colors.white),
+            ],
+          ),
+          color: Colors.red
+      ),
+      onDismissed: (DismissDirection direction) {
+        widget.removeCallback(txt);
+      },
+    );
+    return dismissibleListItem;
   }
 
   void _goToDetails(MainItem item) {

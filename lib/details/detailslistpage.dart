@@ -1,6 +1,7 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
+import 'package:firebase_database/ui/utils/stream_subscriber_mixin.dart';
 import 'detailslist.dart';
 import 'package:ourlist_flutter/mainlist/mainlist.dart';
 
@@ -10,20 +11,44 @@ class DetailsListPage extends StatefulWidget {
   final MainItem item;
 
   @override
-  createState() => new _DetailsListPageState();
+  createState() {
+    var ref = FirebaseDatabase.instance.reference()
+        .child("items").equalTo(item.key).orderByChild('project');
+    return new _DetailsListPageState(ref);
+  }
 }
 
-final firebase = FirebaseDatabase.instance;
 
-class _DetailsListPageState extends State<DetailsListPage> {
+class _DetailsListPageState extends State<DetailsListPage> with StreamSubscriberMixin<Event> {
+
+  var ref;
+
+  _DetailsListPageState(Query query) {
+    ref = query;
+
+    _registerListeners();
+  }
+
+  void _registerListeners() {
+    listen(ref.onChildAdded, _update);
+    listen(ref.onChildRemoved, _update);
+    listen(ref.onChildChanged, _update);
+    listen(ref.onChildMoved, _update);
+  }
 
   final List<String> items = [];
+
+  void _update(Event event) {
+    setState(() {
+      items.clear();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
 
     if (items.isEmpty) {
-      firebase.reference().child("items").once().then((snapshot) {
+      ref.once().then((snapshot) {
         setState(() {
           debugPrint(snapshot.toString());
 

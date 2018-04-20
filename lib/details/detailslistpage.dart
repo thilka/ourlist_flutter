@@ -19,26 +19,19 @@ class DetailsListPage extends StatefulWidget {
 }
 
 
-class _DetailsListPageState extends State<DetailsListPage> with StreamSubscriberMixin<Event> {
+class _DetailsListPageState extends State<DetailsListPage> {
 
   var ref;
+  var updateListener;
 
   _DetailsListPageState(Query query) {
     ref = query;
-
-    _registerListeners();
-  }
-
-  void _registerListeners() {
-    listen(ref.onChildAdded, _update);
-    listen(ref.onChildRemoved, _update);
-    listen(ref.onChildChanged, _update);
-    listen(ref.onChildMoved, _update);
+    updateListener = new _UpdateListener(query, this);
   }
 
   final List<String> items = [];
 
-  void _update(Event event) {
+  void update() {
     setState(() {
       items.clear();
     });
@@ -46,7 +39,6 @@ class _DetailsListPageState extends State<DetailsListPage> with StreamSubscriber
 
   @override
   Widget build(BuildContext context) {
-
     if (items.isEmpty) {
       ref.once().then((snapshot) {
         setState(() {
@@ -73,5 +65,24 @@ class _DetailsListPageState extends State<DetailsListPage> with StreamSubscriber
       ),
       body: new DetailsList(items: items),
     );
+  }
+}
+
+class _UpdateListener extends Object with StreamSubscriberMixin<Event> {
+  final _DetailsListPageState state;
+
+  _UpdateListener(Query query, this.state) {
+    _registerListeners(query);
+  }
+
+  void _registerListeners(Query ref) {
+    listen(ref.onChildAdded, _update);
+    listen(ref.onChildRemoved, _update);
+    listen(ref.onChildChanged, _update);
+    listen(ref.onChildMoved, _update);
+  }
+
+  void _update(Event event) {
+    state.update();
   }
 }

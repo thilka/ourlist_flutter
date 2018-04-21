@@ -21,11 +21,10 @@ class DetailsListPage extends StatefulWidget {
 class _DetailsListPageState extends State<DetailsListPage> {
 
   var ref;
-  var updateListener;
 
   _DetailsListPageState(Query query) {
     ref = query;
-    updateListener = new UpdateListener(query, update);
+    new UpdateListener(query, update);
   }
 
   final List<String> items = [];

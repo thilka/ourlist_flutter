@@ -3,6 +3,8 @@ import 'package:firebase_database/ui/utils/stream_subscriber_mixin.dart';
 
 typedef FirebaseUpdateCallback();
 
+
+// TODO: try to find a way to listen to the change events without using Mixin from ui package
 class UpdateListener extends Object with StreamSubscriberMixin<Event> {
   final FirebaseUpdateCallback updateCallback;
 

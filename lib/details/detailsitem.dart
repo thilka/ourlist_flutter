@@ -1,12 +1,17 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+typedef void CheckedCallback(String firebaseKey, bool checked);
+
 class DetailsItem extends StatefulWidget {
-  DetailsItem({Key key, @required this.firebaseKey, @required this.text, @required this.callback});
+  DetailsItem({Key key,
+    @required this.firebaseKey, @required this.text,
+    @required this.checkedCallback, @required this.dismissCallback});
 
   final firebaseKey;
   final text;
-  final callback;
+  final CheckedCallback checkedCallback;
+  final dismissCallback;
 
   @override
   createState() => new DetailsItemState();
@@ -42,13 +47,14 @@ class DetailsItemState extends State<DetailsItem> {
           ),
           color: Colors.red
         ),
-        onDismissed: (DismissDirection direction) { widget.callback(widget); }
+        onDismissed: (DismissDirection direction) { widget.dismissCallback(widget); }
     );
   }
 
   void _onValueChanged(bool newValue) {
     setState(() {
       _checked = newValue;
+      widget.checkedCallback(widget.firebaseKey, newValue);
     });
   }
 }

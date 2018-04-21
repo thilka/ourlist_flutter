@@ -47,7 +47,8 @@ class _DetailsListPageState extends State<DetailsListPage> {
               var item = new DetailsItem(
                   text: value["name"],
                   firebaseKey: key,
-                  callback: _dismissItem);
+                  checkedCallback: _checkedCallback,
+                  dismissCallback: _dismissItem);
               items.add(item);
             });
           }
@@ -80,5 +81,12 @@ class _DetailsListPageState extends State<DetailsListPage> {
         "done": false
       });
     });
+  }
+
+  void _checkedCallback(String firebaseKey, bool checked) {
+    ref.reference().child(firebaseKey).update(<String, dynamic> {
+      "done": checked
+    });
+    debugPrint(firebaseKey + " set to " + checked.toString());
   }
 }

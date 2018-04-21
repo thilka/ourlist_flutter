@@ -13,9 +13,9 @@ class MainList extends StatefulWidget {
 }
 
 class MainItem {
-  final String key;
+  final String firebaseKey;
   final String name;
-  MainItem(this.key, this.name);
+  MainItem(this.firebaseKey, this.name);
 }
 
 class MainListState extends State<MainList> {

@@ -14,7 +14,7 @@ class DetailsListPage extends StatefulWidget {
   @override
   createState() {
     var ref = FirebaseDatabase.instance.reference()
-        .child("items").equalTo(item.key).orderByChild('project');
+        .child("items").equalTo(item.firebaseKey).orderByChild('project');
     return new _DetailsListPageState(ref);
   }
 }
@@ -60,7 +60,8 @@ class _DetailsListPageState extends State<DetailsListPage> {
       appBar: new AppBar(
         title: new Text('$text'),
       ),
-      body: new DetailsList(items: items, dismissCallback: _dismissItem),
+      body: new DetailsList(items: items,
+          addCallback: _addCallback, dismissCallback: _dismissItem),
     );
   }
 
@@ -68,5 +69,16 @@ class _DetailsListPageState extends State<DetailsListPage> {
     ref.reference().child(item.firebaseKey).remove();
     items.remove(item);
     setState(() {});
+  }
+
+  void _addCallback(String input) {
+    setState(() {
+      debugPrint("Want to add " + input);
+      ref.reference().push().set(<String, dynamic> {
+        "name": input,
+        "project": widget.item.firebaseKey,
+        "done": false
+      });
+    });
   }
 }

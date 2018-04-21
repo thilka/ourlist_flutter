@@ -2,11 +2,17 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'detailsitem.dart';
 
+typedef AddCallback(String);
+
 class DetailsList extends StatefulWidget {
-  DetailsList({Key key, @required this.items, @required this.dismissCallback});
+  DetailsList({Key key,
+    @required this.items,
+    @required this.addCallback,
+    @required this.dismissCallback});
 
   final List<DetailsItem> items;
   final dismissCallback;
+  final AddCallback addCallback;
   @override
   createState() => new _DetailsListState();
 }
@@ -73,8 +79,7 @@ class _DetailsListState extends State<DetailsList> {
   void _inputSubmitted(String input) {
     setState(() {
       _editMode = false;
-      // TODO: Fix adding of elements
-      widget.items.add(new DetailsItem(text: input, firebaseKey: null, callback: widget.dismissCallback));
+      widget.addCallback(input);
     });
   }
 }

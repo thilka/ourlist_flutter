@@ -2,8 +2,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class DetailsItem extends StatefulWidget {
-  DetailsItem({Key key, @required this.text, @required this.callback});
+  DetailsItem({Key key, @required this.firebaseKey, @required this.text, @required this.callback});
 
+  final firebaseKey;
   final text;
   final callback;
 

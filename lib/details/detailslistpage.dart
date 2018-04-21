@@ -21,7 +21,7 @@ class DetailsListPage extends StatefulWidget {
 
 class _DetailsListPageState extends State<DetailsListPage> {
 
-  var ref;
+  Query ref;
 
   _DetailsListPageState(Query query) {
     ref = query;
@@ -44,7 +44,10 @@ class _DetailsListPageState extends State<DetailsListPage> {
         setState(() {
           if (map != null) {
             map.forEach((key, value) {
-              var item = new DetailsItem(text: value["name"], callback: _dismissItem);
+              var item = new DetailsItem(
+                  text: value["name"],
+                  firebaseKey: key,
+                  callback: _dismissItem);
               items.add(item);
             });
           }
@@ -62,7 +65,7 @@ class _DetailsListPageState extends State<DetailsListPage> {
   }
 
   void _dismissItem(DetailsItem item) {
-    debugPrint("About to remove item: " + item.text);
+    ref.reference().child(item.firebaseKey).remove();
     items.remove(item);
     setState(() {});
   }

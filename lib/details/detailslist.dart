@@ -73,7 +73,8 @@ class _DetailsListState extends State<DetailsList> {
   void _inputSubmitted(String input) {
     setState(() {
       _editMode = false;
-      widget.items.add(new DetailsItem(text: input, callback: widget.dismissCallback));
+      // TODO: Fix adding of elements
+      widget.items.add(new DetailsItem(text: input, firebaseKey: null, callback: widget.dismissCallback));
     });
   }
 }

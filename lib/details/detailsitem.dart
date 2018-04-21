@@ -41,7 +41,7 @@ class DetailsItemState extends State<DetailsItem> {
           ),
           color: Colors.red
         ),
-        onDismissed: (DismissDirection direction) { widget.callback(this); }
+        onDismissed: (DismissDirection direction) { widget.callback(widget); }
     );
   }
 

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:ourlist_flutter/firebase/updatelistener.dart';
 import 'detailslist.dart';
+import 'detailsitem.dart';
 import 'package:ourlist_flutter/mainlist/mainlist.dart';
 
 class DetailsListPage extends StatefulWidget {
@@ -27,7 +28,7 @@ class _DetailsListPageState extends State<DetailsListPage> {
     new UpdateListener(query, update);
   }
 
-  final List<String> items = [];
+  final List<DetailsItem> items = [];
 
   void update() {
     setState(() {
@@ -43,7 +44,8 @@ class _DetailsListPageState extends State<DetailsListPage> {
         setState(() {
           if (map != null) {
             map.forEach((key, value) {
-              items.add(value["name"]);
+              var item = new DetailsItem(text: value["name"], callback: _dismissItem);
+              items.add(item);
             });
           }
         });
@@ -55,7 +57,13 @@ class _DetailsListPageState extends State<DetailsListPage> {
       appBar: new AppBar(
         title: new Text('$text'),
       ),
-      body: new DetailsList(items: items),
+      body: new DetailsList(items: items, dismissCallback: _dismissItem),
     );
+  }
+
+  void _dismissItem(DetailsItem item) {
+    debugPrint("About to remove item: " + item.text);
+    items.remove(item);
+    setState(() {});
   }
 }

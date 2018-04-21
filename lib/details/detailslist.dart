@@ -3,32 +3,27 @@ import 'package:flutter/material.dart';
 import 'detailsitem.dart';
 
 class DetailsList extends StatefulWidget {
-  DetailsList({Key key, @required this.items});
+  DetailsList({Key key, @required this.items, @required this.dismissCallback});
 
-  final Iterable<dynamic> items;
+  final List<DetailsItem> items;
+  final dismissCallback;
   @override
   createState() => new _DetailsListState();
 }
 
 class _DetailsListState extends State<DetailsList> {
 
-  final List<DetailsItem> _tiles = [];
   final ScrollController _scrollController = new ScrollController();
 
   var _editMode = false;
 
   @override
   Widget build(BuildContext context) {
-    _tiles.clear();
-
-    widget.items.forEach((element) {
-      _tiles.add(new DetailsItem(text: element, callback: _dismissItem));
-    });
 
     final divided = ListTile
         .divideTiles(
       context: context,
-      tiles: _tiles,
+      tiles: widget.items,
     ).toList();
 
     if (_editMode) {
@@ -78,12 +73,7 @@ class _DetailsListState extends State<DetailsList> {
   void _inputSubmitted(String input) {
     setState(() {
       _editMode = false;
-      _tiles.add(new DetailsItem(text: input, callback: _dismissItem));
+      widget.items.add(new DetailsItem(text: input, callback: widget.dismissCallback));
     });
-  }
-
-  void _dismissItem(DetailsItem item) {
-    _tiles.remove(item);
-    setState(() {});
   }
 }

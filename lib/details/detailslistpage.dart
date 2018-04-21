@@ -31,8 +31,9 @@ class _DetailsListPageState extends State<DetailsListPage> {
   final List<DetailsItem> items = [];
 
   void update() {
+    items.clear();
     setState(() {
-      items.clear();
+
     });
   }
 

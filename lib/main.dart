@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:ourlist_flutter/firebase/updatelistener.dart';
 import 'package:ourlist_flutter/mainlist/mainlist.dart';
 
 void main() => runApp(new MyApp());
@@ -28,6 +29,11 @@ class OurListAppState extends State<OurListApp> {
 
   final List<MainItem> _mainItems = [];
 
+  OurListAppState() {
+    // register for change events
+    new UpdateListener(reference, _fetchData);
+  }
+
   @override
   void initState() {
     super.initState();
@@ -36,16 +42,13 @@ class OurListAppState extends State<OurListApp> {
   }
 
   _fetchData() async {
-    List<MainItem> items = [];
-
     DataSnapshot response = await reference.once();
-    Map<String, dynamic> map = response.value["projects"];
-    map.forEach((key, value) {
-      items.add(new MainItem(key, value["name"]));
-    });
     setState(() {
-      _mainItems.addAll(items);
-
+      _mainItems.clear();
+      Map<String, dynamic> map = response.value["projects"];
+      map.forEach((key, value) {
+        _mainItems.add(new MainItem(key, value["name"]));
+      });
     });
   }
 

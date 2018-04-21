@@ -1,7 +1,7 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
-import 'package:firebase_database/ui/utils/stream_subscriber_mixin.dart';
+import 'package:ourlist_flutter/firebase/updatelistener.dart';
 import 'detailslist.dart';
 import 'package:ourlist_flutter/mainlist/mainlist.dart';
 
@@ -18,7 +18,6 @@ class DetailsListPage extends StatefulWidget {
   }
 }
 
-
 class _DetailsListPageState extends State<DetailsListPage> {
 
   var ref;
@@ -26,7 +25,7 @@ class _DetailsListPageState extends State<DetailsListPage> {
 
   _DetailsListPageState(Query query) {
     ref = query;
-    updateListener = new _UpdateListener(query, this);
+    updateListener = new UpdateListener(query, update);
   }
 
   final List<String> items = [];
@@ -41,21 +40,15 @@ class _DetailsListPageState extends State<DetailsListPage> {
   Widget build(BuildContext context) {
     if (items.isEmpty) {
       ref.once().then((snapshot) {
+        Map<String, dynamic> map = snapshot.value;
         setState(() {
-          debugPrint(snapshot.toString());
-
-          Map<String, dynamic> map = snapshot.value;
-          map.forEach((key, value) {
-            //debugPrint(key);
-            //debugPrint(value.toString());
-            if (value["project"] == widget.item.key) {
-              items.add(value["name"]); // works!
-            }
-          });
+          if (map != null) {
+            map.forEach((key, value) {
+              items.add(value["name"]);
+            });
+          }
         });
       });
-
-      return new Container();
     }
 
     String text = widget.item.name;
@@ -65,24 +58,5 @@ class _DetailsListPageState extends State<DetailsListPage> {
       ),
       body: new DetailsList(items: items),
     );
-  }
-}
-
-class _UpdateListener extends Object with StreamSubscriberMixin<Event> {
-  final _DetailsListPageState state;
-
-  _UpdateListener(Query query, this.state) {
-    _registerListeners(query);
-  }
-
-  void _registerListeners(Query ref) {
-    listen(ref.onChildAdded, _update);
-    listen(ref.onChildRemoved, _update);
-    listen(ref.onChildChanged, _update);
-    listen(ref.onChildMoved, _update);
-  }
-
-  void _update(Event event) {
-    state.update();
   }
 }

@@ -46,6 +46,7 @@ class _DetailsListPageState extends State<DetailsListPage> {
             map.forEach((key, value) {
               var item = new DetailsItem(
                   text: value["name"],
+                  checked: value["done"],
                   firebaseKey: key,
                   checkedCallback: _checkedCallback,
                   dismissCallback: _dismissItem);

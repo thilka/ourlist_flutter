@@ -5,11 +5,12 @@ typedef void CheckedCallback(String firebaseKey, bool checked);
 
 class DetailsItem extends StatefulWidget {
   DetailsItem({Key key,
-    @required this.firebaseKey, @required this.text,
+    @required this.firebaseKey, @required this.text, @required this.checked,
     @required this.checkedCallback, @required this.dismissCallback});
 
   final firebaseKey;
   final text;
+  final bool checked;
   final CheckedCallback checkedCallback;
   final dismissCallback;
 
@@ -19,10 +20,11 @@ class DetailsItem extends StatefulWidget {
 
 class DetailsItemState extends State<DetailsItem> {
 
-  bool _checked = false;
+
 
   @override
   Widget build(BuildContext context) {
+    bool _checked = widget.checked;
     Widget tile = new Container(
       child: new ListTile(
         title: new Text(widget.text),
@@ -52,9 +54,6 @@ class DetailsItemState extends State<DetailsItem> {
   }
 
   void _onValueChanged(bool newValue) {
-    setState(() {
-      _checked = newValue;
-      widget.checkedCallback(widget.firebaseKey, newValue);
-    });
+    widget.checkedCallback(widget.firebaseKey, newValue);
   }
 }

@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:ourlist_flutter/firebase/updatelistener.dart';
 import 'package:ourlist_flutter/mainlist/mainlist.dart';
 
@@ -34,11 +37,22 @@ class OurListAppState extends State<OurListApp> {
     new UpdateListener(reference, _fetchData);
   }
 
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  Future<String> _signInAnonymously() async {
+    final FirebaseUser user = await _auth.signInAnonymously();
+    return 'signInAnonymously succeeded: $user';
+  }
+
   @override
   void initState() {
     super.initState();
 
-    _fetchData();
+    _signInAnonymously().then((message) {
+      debugPrint(message);
+      _fetchData();
+    });
+
   }
 
   _fetchData() async {

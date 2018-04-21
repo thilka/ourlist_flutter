@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'detailsitem.dart';
 
-typedef AddCallback(String);
+typedef void AddCallback(String input);
 
 class DetailsList extends StatefulWidget {
   DetailsList({Key key,
@@ -68,12 +68,12 @@ class _DetailsListState extends State<DetailsList> {
   }
 
   void _scrollListToCorrectPositionWhenKeyboardAppears() {
-    final approxKeyboardHeight = 300;
+    /*final approxKeyboardHeight = 300;
     _scrollController.animateTo(
       _scrollController.position.maxScrollExtent + approxKeyboardHeight,
       curve: Curves.easeOut,
       duration: const Duration(milliseconds: 300),
-    );
+    );*/
   }
 
   void _inputSubmitted(String input) {

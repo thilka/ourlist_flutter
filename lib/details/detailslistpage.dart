@@ -13,9 +13,7 @@ class DetailsListPage extends StatefulWidget {
 
   @override
   createState() {
-    var ref = FirebaseDatabase.instance.reference()
-        .child("items").equalTo(item.firebaseKey).orderByChild('project');
-    return new _DetailsListPageState(ref);
+    return new _DetailsListPageState(item);
   }
 }
 
@@ -23,9 +21,11 @@ class _DetailsListPageState extends State<DetailsListPage> {
 
   Query ref;
 
-  _DetailsListPageState(Query query) {
-    ref = query;
-    new UpdateListener(query, update);
+  _DetailsListPageState(MainItem item) {
+    ref = FirebaseDatabase.instance.reference()
+        .child("items").equalTo(item.firebaseKey).orderByChild('project');
+
+    new UpdateListener(ref, update);
   }
 
   final List<DetailsItem> items = [];
@@ -88,6 +88,5 @@ class _DetailsListPageState extends State<DetailsListPage> {
     ref.reference().child(firebaseKey).update(<String, dynamic> {
       "done": checked
     });
-    debugPrint(firebaseKey + " set to " + checked.toString());
   }
 }

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 typedef void CheckedCallback(String firebaseKey, bool checked);
 
-class DetailsItem extends StatefulWidget {
+class DetailsItem extends StatelessWidget {
   DetailsItem({Key key,
     @required this.firebaseKey, @required this.text, @required this.checked,
     @required this.checkedCallback, @required this.dismissCallback});
@@ -15,26 +15,18 @@ class DetailsItem extends StatefulWidget {
   final dismissCallback;
 
   @override
-  createState() => new DetailsItemState();
-}
-
-class DetailsItemState extends State<DetailsItem> {
-
-
-
-  @override
   Widget build(BuildContext context) {
-    bool _checked = widget.checked;
+
     Widget tile = new Container(
       child: new ListTile(
-        title: new Text(widget.text),
-        leading: new Checkbox(value: _checked, onChanged: _onValueChanged),
-        onTap: () { _onValueChanged(!_checked); },
+        title: new Text(text),
+        leading: new Checkbox(value: checked, onChanged: _onValueChanged),
+        onTap: () { _onValueChanged(!checked); },
       ),
-      color: _checked ? Colors.lightGreen : null,
+      color: checked ? Colors.lightGreen : null,
     );
     return new Dismissible(
-        key: new Key(widget.text),
+        key: new Key(text),
         child: tile,
         direction: DismissDirection.endToStart,
         background: new Container(
@@ -49,11 +41,11 @@ class DetailsItemState extends State<DetailsItem> {
           ),
           color: Colors.red
         ),
-        onDismissed: (DismissDirection direction) { widget.dismissCallback(widget); }
+        onDismissed: (DismissDirection direction) { dismissCallback(this); }
     );
   }
 
   void _onValueChanged(bool newValue) {
-    widget.checkedCallback(widget.firebaseKey, newValue);
+    checkedCallback(firebaseKey, newValue);
   }
 }

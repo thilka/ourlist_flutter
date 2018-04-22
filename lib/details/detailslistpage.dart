@@ -20,23 +20,44 @@ class DetailsListPage extends StatefulWidget {
 class _DetailsListPageState extends State<DetailsListPage> {
 
   Query ref;
+  UpdateListener updateListener;
 
   _DetailsListPageState(MainItem item) {
     ref = FirebaseDatabase.instance.reference()
         .child("items").equalTo(item.firebaseKey).orderByChild('project');
 
-    new UpdateListener(ref, update);
+    updateListener = new UpdateListener(ref, update);
   }
 
   final List<DetailsItem> items = [];
 
   void update() {
     items.clear();
-    setState(() {});
+    setState(() { });
   }
 
   @override
   Widget build(BuildContext context) {
+    loadItemsIfNecessary();
+
+    String text = widget.item.name;
+    return new Scaffold(
+      appBar: new AppBar(
+        title: new Text('$text'),
+      ),
+      body: new DetailsList(items: items,
+          addCallback: _addCallback, dismissCallback: _dismissItem),
+    );
+  }
+
+
+  @override
+  void dispose() {
+    super.dispose();
+    updateListener.cancelSubscriptions();
+  }
+
+  void loadItemsIfNecessary() {
     if (items.isEmpty) {
       ref.once().then((snapshot) {
         Map<dynamic, dynamic> map = snapshot.value;
@@ -55,15 +76,6 @@ class _DetailsListPageState extends State<DetailsListPage> {
         });
       });
     }
-
-    String text = widget.item.name;
-    return new Scaffold(
-      appBar: new AppBar(
-        title: new Text('$text'),
-      ),
-      body: new DetailsList(items: items,
-          addCallback: _addCallback, dismissCallback: _dismissItem),
-    );
   }
 
   void _dismissItem(DetailsItem item) {
@@ -73,14 +85,12 @@ class _DetailsListPageState extends State<DetailsListPage> {
   }
 
   void _addCallback(String input) {
-    //setState(() {
       debugPrint("Want to add " + input);
       ref.reference().push().set(<String, dynamic> {
         "name": input,
         "project": widget.item.firebaseKey,
         "done": false
       });
-    //});
   }
 
   void _checkedCallback(String firebaseKey, bool checked) {

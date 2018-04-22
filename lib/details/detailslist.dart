@@ -26,10 +26,15 @@ class _DetailsListState extends State<DetailsList> {
   @override
   Widget build(BuildContext context) {
 
+    final List<DetailsItemWidget> items = [];
+    widget.items.forEach((detailsItem) {
+      items.add(new DetailsItemWidget(detailsItem: detailsItem));
+    });
+
     final divided = ListTile
         .divideTiles(
       context: context,
-      tiles: widget.items,
+      tiles: items,
     ).toList();
 
     if (_editMode) {

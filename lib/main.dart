@@ -59,7 +59,7 @@ class OurListAppState extends State<OurListApp> {
     DataSnapshot response = await reference.once();
     setState(() {
       _mainItems.clear();
-      Map<String, dynamic> map = response.value["projects"];
+      Map<dynamic, dynamic> map = response.value["projects"];
       map.forEach((key, value) {
         _mainItems.add(new MainItem(key, value["name"]));
       });

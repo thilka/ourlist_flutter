@@ -32,16 +32,14 @@ class _DetailsListPageState extends State<DetailsListPage> {
 
   void update() {
     items.clear();
-    setState(() {
-
-    });
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     if (items.isEmpty) {
       ref.once().then((snapshot) {
-        Map<String, dynamic> map = snapshot.value;
+        Map<dynamic, dynamic> map = snapshot.value;
         setState(() {
           if (map != null) {
             map.forEach((key, value) {
@@ -75,14 +73,14 @@ class _DetailsListPageState extends State<DetailsListPage> {
   }
 
   void _addCallback(String input) {
-    setState(() {
+    //setState(() {
       debugPrint("Want to add " + input);
       ref.reference().push().set(<String, dynamic> {
         "name": input,
         "project": widget.item.firebaseKey,
         "done": false
       });
-    });
+    //});
   }
 
   void _checkedCallback(String firebaseKey, bool checked) {

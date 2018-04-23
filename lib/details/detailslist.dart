@@ -7,11 +7,9 @@ typedef void AddCallback(String input);
 class DetailsList extends StatefulWidget {
   DetailsList({Key key,
     @required this.items,
-    @required this.addCallback,
-    @required this.dismissCallback});
+    @required this.addCallback});
 
   final List<DetailsItem> items;
-  final dismissCallback;
   final AddCallback addCallback;
   @override
   createState() => new _DetailsListState();

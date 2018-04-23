@@ -49,7 +49,7 @@ class DetailsItemWidget extends StatelessWidget {
           ),
           color: Colors.red
         ),
-        onDismissed: (DismissDirection direction) { detailsItem.dismissCallback(this); }
+        onDismissed: (DismissDirection direction) { detailsItem.dismissCallback(this.detailsItem); }
     );
   }
 

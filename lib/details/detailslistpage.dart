@@ -32,7 +32,7 @@ class _DetailsListPageState extends State<DetailsListPage> {
 
   @override
   Widget build(BuildContext context) {
-    loadItemsIfNecessary();
+    _loadItemsIfNecessary();
 
     String text = widget.item.name;
     return new Scaffold(
@@ -43,14 +43,13 @@ class _DetailsListPageState extends State<DetailsListPage> {
     );
   }
 
-
   @override
   void dispose() {
     super.dispose();
     controller.deregister();
   }
 
-  void loadItemsIfNecessary() {
+  void _loadItemsIfNecessary() {
     if (items.isEmpty) {
       controller.loadItems(_loadingCompleted);
     }

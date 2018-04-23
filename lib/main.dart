@@ -88,7 +88,7 @@ class OurListAppState extends State<OurListApp> {
     });
   }
 
-  void _removeItem(String item) {
+  void _removeItem(MainItem item) {
     setState(() {
       _mainItems.remove(item);
     });

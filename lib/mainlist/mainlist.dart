@@ -2,6 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:ourlist_flutter/details/detailslistpage.dart';
 
+class MainItem {
+  final String firebaseKey;
+  final String name;
+  MainItem(this.firebaseKey, this.name);
+}
+
+typedef RemoveItemCallback(MainItem itemKey);
+
 class MainList extends StatefulWidget {
   MainList({Key key, @required this.items, @required this.removeCallback}) : super(key:key);
 
@@ -10,12 +18,6 @@ class MainList extends StatefulWidget {
 
   @override
   createState() => new MainListState();
-}
-
-class MainItem {
-  final String firebaseKey;
-  final String name;
-  MainItem(this.firebaseKey, this.name);
 }
 
 class MainListState extends State<MainList> {
@@ -40,7 +42,8 @@ class MainListState extends State<MainList> {
             },
           );
 
-          Dismissible dismissibleListItem = wrapInDismissibleItem(txt, listItem);
+          Dismissible dismissibleListItem = _wrapInDismissibleItem(
+              item, listItem, widget.removeCallback);
 
           return dismissibleListItem;
         }
@@ -50,9 +53,10 @@ class MainListState extends State<MainList> {
     return list;
   }
 
-  Dismissible wrapInDismissibleItem(String txt, ListTile listItem) {
+  Dismissible _wrapInDismissibleItem(MainItem item, ListTile listItem,
+      RemoveItemCallback removeItemCallback) {
     final dismissibleListItem = new Dismissible(
-      key: new Key(txt),
+      key: new Key(item.firebaseKey),
       child: listItem,
       direction: DismissDirection.endToStart,
       background: new Container(
@@ -68,7 +72,7 @@ class MainListState extends State<MainList> {
           color: Colors.red
       ),
       onDismissed: (DismissDirection direction) {
-        widget.removeCallback(txt);
+        removeItemCallback(item);
       },
     );
     return dismissibleListItem;

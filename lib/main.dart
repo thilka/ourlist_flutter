@@ -84,6 +84,7 @@ class OurListAppState extends State<OurListApp> {
   void _addItemCallback(MainItem item) {
     reference.push().set(<String, dynamic> {
       "name": item.name,
+      "created": new DateTime.now().millisecondsSinceEpoch
     });
   }
 

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:ourlist_flutter/firebase/updatelistener.dart';
+import 'package:ourlist_flutter/mainlist/addmainitem.dart';
 import 'package:ourlist_flutter/mainlist/mainlist.dart';
 
 void main() => runApp(new MyApp());
@@ -26,7 +27,7 @@ class OurListApp extends StatefulWidget {
   createState() => new OurListAppState();
 }
 
-final reference = FirebaseDatabase.instance.reference();
+final reference = FirebaseDatabase.instance.reference().child("projects");
 
 class OurListAppState extends State<OurListApp> {
 
@@ -52,14 +53,13 @@ class OurListAppState extends State<OurListApp> {
       debugPrint(message);
       _fetchData();
     });
-
   }
 
   _fetchData() async {
     DataSnapshot response = await reference.once();
     setState(() {
       _mainItems.clear();
-      Map<dynamic, dynamic> map = response.value["projects"];
+      Map<dynamic, dynamic> map = response.value;
       map.forEach((key, value) {
         _mainItems.add(new MainItem(key, value["name"]));
       });
@@ -81,16 +81,23 @@ class OurListAppState extends State<OurListApp> {
     );
   }
 
-  void _addItem() {
-    setState(() {
-      var i = (_mainItems.length + 1);
-      _mainItems.add(new MainItem(i.toString(), i.toString()));
+  void _addItemCallback(MainItem item) {
+    reference.push().set(<String, dynamic> {
+      "name": item.name,
     });
   }
 
+  void _addItem() {
+    Navigator.of(context).push(
+        new MaterialPageRoute(
+          builder: (context) {
+            return new AddMainItem(addCallback: _addItemCallback);
+          },
+        )
+    );
+  }
+
   void _removeItem(MainItem item) {
-    setState(() {
-      _mainItems.remove(item);
-    });
+    reference.child(item.firebaseKey).remove();
   }
 }

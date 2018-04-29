@@ -31,8 +31,8 @@ class DetailsController {
                 dismissCallback: _dismissItem);
             items.add(item);
           });
-          loadingCompleted(items);
         }
+        loadingCompleted(items);
     });
   }
 

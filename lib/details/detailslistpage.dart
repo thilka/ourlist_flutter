@@ -18,6 +18,7 @@ class DetailsListPage extends StatefulWidget {
 
 class _DetailsListPageState extends State<DetailsListPage> {
 
+  bool refreshNecessary = true;
   DetailsController controller;
   _DetailsListPageState(MainItem item) {
     controller = new DetailsController(item.firebaseKey, update);
@@ -27,7 +28,7 @@ class _DetailsListPageState extends State<DetailsListPage> {
   var editMode = false;
 
   void update() {
-    items.clear();
+    refreshNecessary = true;
     setState(() { });
   }
 
@@ -61,7 +62,7 @@ class _DetailsListPageState extends State<DetailsListPage> {
   bool loading = false;
 
   void _loadItemsIfNecessary() {
-    if (items.isEmpty) {
+    if (refreshNecessary) {
       controller.loadItems(_loadingCompleted);
       loading = true;
     }
@@ -75,6 +76,7 @@ class _DetailsListPageState extends State<DetailsListPage> {
         return a.text.toLowerCase().compareTo(b.text.toLowerCase());
       });
       loading = false;
+      refreshNecessary = false;
     });
   }
 

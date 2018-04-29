@@ -19,20 +19,20 @@ class DetailsController {
 
   void loadItems(LoadingCompleted loadingCompleted) {
     _ref.once().then((snapshot) {
-      final List<DetailsItem> items = [];
-      Map<dynamic, dynamic> map = snapshot.value;
-      if (map != null) {
-        map.forEach((key, value) {
-          var item = new DetailsItem(
-              text: value["name"],
-              checked: value["done"],
-              firebaseKey: key,
-              checkedCallback: _checkedCallback,
-              dismissCallback: _dismissItem);
-          items.add(item);
-        });
-        loadingCompleted(items);
-      }
+        final List<DetailsItem> items = [];
+        Map<dynamic, dynamic> map = snapshot.value;
+        if (map != null) {
+          map.forEach((key, value) {
+            var item = new DetailsItem(
+                text: value["name"],
+                checked: value["done"],
+                firebaseKey: key,
+                checkedCallback: _checkedCallback,
+                dismissCallback: _dismissItem);
+            items.add(item);
+          });
+          loadingCompleted(items);
+        }
     });
   }
 

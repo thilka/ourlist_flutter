@@ -58,9 +58,11 @@ class OurListAppState extends State<OurListApp> {
     setState(() { });
   }
 
+  bool loading = false;
   void _loadItemIfNecessary() {
     if (_mainItems.isEmpty) {
       mainController.loadItems(loadingCompleted);
+      loading = true;
     }
   }
 
@@ -71,6 +73,7 @@ class OurListAppState extends State<OurListApp> {
       _mainItems.sort((a, b) {
         return a.name.toLowerCase().compareTo(b.name.toLowerCase());
       });
+      loading = false;
     });
   }
 
@@ -85,8 +88,10 @@ class OurListAppState extends State<OurListApp> {
           ],
         ),
         body: new Center(
-          child: new MainList(items: _mainItems, removeCallback: _removeItem),
-        )
+          child: loading ?
+            new CircularProgressIndicator() :
+            new MainList(items: _mainItems, removeCallback: _removeItem)
+          )
     );
   }
 

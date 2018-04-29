@@ -44,7 +44,11 @@ class _DetailsListPageState extends State<DetailsListPage> {
           new IconButton(icon: new Icon(Icons.add, color: Colors.white,), onPressed: _addItem)
         ],
       ),
-      body: new DetailsList(items: items, addCallback: _addCallback, editMode: editMode),
+      body: new Center(
+          child: loading ?
+            new CircularProgressIndicator() :
+            new DetailsList(items: items, addCallback: _addCallback, editMode: editMode)
+      )
     );
   }
 
@@ -54,18 +58,23 @@ class _DetailsListPageState extends State<DetailsListPage> {
     controller.deregister();
   }
 
+  bool loading = false;
+
   void _loadItemsIfNecessary() {
     if (items.isEmpty) {
       controller.loadItems(_loadingCompleted);
+      loading = true;
     }
   }
 
   void _loadingCompleted(List<DetailsItem> loadedItems) {
     setState(() {
+      items.clear();
       items.addAll(loadedItems);
       items.sort((a, b) {
         return a.text.toLowerCase().compareTo(b.text.toLowerCase());
       });
+      loading = false;
     });
   }
 

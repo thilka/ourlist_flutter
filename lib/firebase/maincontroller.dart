@@ -15,7 +15,6 @@ class MainController {
   }
 
   void loadItems(LoadingCompleted loadingCompleted) {
-
     reference.once().then((response) {
       List<MainItem> _mainItems = [];
       Map<dynamic, dynamic> map = response.value;

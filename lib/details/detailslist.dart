@@ -7,10 +7,13 @@ typedef void AddCallback(String input);
 class DetailsList extends StatefulWidget {
   DetailsList({Key key,
     @required this.items,
-    @required this.addCallback});
+    @required this.addCallback,
+    @required this.editMode,
+  });
 
   final List<DetailsItem> items;
   final AddCallback addCallback;
+  final bool editMode;
   @override
   createState() => new _DetailsListState();
 }
@@ -18,8 +21,6 @@ class DetailsList extends StatefulWidget {
 class _DetailsListState extends State<DetailsList> {
 
   final ScrollController _scrollController = new ScrollController();
-
-  var _editMode = false;
 
   @override
   Widget build(BuildContext context) {
@@ -35,13 +36,14 @@ class _DetailsListState extends State<DetailsList> {
       tiles: items,
     ).toList();
 
-    if (_editMode) {
-      divided.add(createInputField);
-    } else {
-      divided.add(createAddButton);
+    var listView = new ListView(children: divided, controller: _scrollController,);
+
+    if (widget.editMode) {
+      divided.insert(0, createInputField);
+      _scrollListToCorrectPositionForEnteringNewItem();
     }
 
-    return new ListView(children: divided, controller: _scrollController,);
+    return listView;
   }
 
   ListTile get createInputField {
@@ -53,35 +55,16 @@ class _DetailsListState extends State<DetailsList> {
     );
   }
 
-  ListTile get createAddButton {
-    return new ListTile(
-      title: new IconButton(
-        icon: new Icon(Icons.add),
-        onPressed: _addItem,
-        color: Colors.blue,
-      ),
-    );
-  }
-
-  void _addItem() {
-    setState(() {
-      _editMode = true;
-      _scrollListToCorrectPositionWhenKeyboardAppears();
-    });
-  }
-
-  void _scrollListToCorrectPositionWhenKeyboardAppears() {
-    /*final approxKeyboardHeight = 300;
+  void _scrollListToCorrectPositionForEnteringNewItem() {
     _scrollController.animateTo(
-      _scrollController.position.maxScrollExtent + approxKeyboardHeight,
+      0.0,
       curve: Curves.easeOut,
       duration: const Duration(milliseconds: 300),
-    );*/
+    );
   }
 
   void _inputSubmitted(String input) {
     setState(() {
-      _editMode = false;
       widget.addCallback(input);
     });
   }

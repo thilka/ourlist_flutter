@@ -24,6 +24,7 @@ class _DetailsListPageState extends State<DetailsListPage> {
   }
 
   final List<DetailsItem> items = [];
+  var editMode = false;
 
   void update() {
     items.clear();
@@ -35,11 +36,15 @@ class _DetailsListPageState extends State<DetailsListPage> {
     _loadItemsIfNecessary();
 
     String text = widget.item.name;
+
     return new Scaffold(
       appBar: new AppBar(
         title: new Text('$text'),
+        actions: <Widget>[
+          new IconButton(icon: new Icon(Icons.add, color: Colors.white,), onPressed: _addItem)
+        ],
       ),
-      body: new DetailsList(items: items, addCallback: _addCallback),
+      body: new DetailsList(items: items, addCallback: _addCallback, editMode: editMode),
     );
   }
 
@@ -61,11 +66,17 @@ class _DetailsListPageState extends State<DetailsListPage> {
       items.sort((a, b) {
         return a.text.toLowerCase().compareTo(b.text.toLowerCase());
       });
+    });
+  }
 
+  void _addItem() {
+    setState(() {
+      editMode = true;
     });
   }
 
   void _addCallback(String input) {
     controller.add(input);
+    editMode = false;
   }
 }

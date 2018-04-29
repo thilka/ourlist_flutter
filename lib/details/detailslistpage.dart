@@ -58,6 +58,10 @@ class _DetailsListPageState extends State<DetailsListPage> {
   void _loadingCompleted(List<DetailsItem> loadedItems) {
     setState(() {
       items.addAll(loadedItems);
+      items.sort((a, b) {
+        return a.text.toLowerCase().compareTo(b.text.toLowerCase());
+      });
+
     });
   }
 

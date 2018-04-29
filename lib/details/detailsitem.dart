@@ -9,7 +9,7 @@ class DetailsItem {
     @required this.checkedCallback, @required this.dismissCallback});
 
   final firebaseKey;
-  final text;
+  final String text;
   final checked;
   final checkedCallback;
   final dismissCallback;

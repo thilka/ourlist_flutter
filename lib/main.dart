@@ -66,7 +66,11 @@ class OurListAppState extends State<OurListApp> {
 
   void loadingCompleted(List<MainItem> items) {
     setState(() {
+      _mainItems.clear();
       _mainItems.addAll(items);
+      _mainItems.sort((a, b) {
+        return a.name.toLowerCase().compareTo(b.name.toLowerCase());
+      });
     });
   }
 

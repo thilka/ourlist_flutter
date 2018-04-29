@@ -57,7 +57,7 @@ PODS:
 DEPENDENCIES:
   - firebase_auth (from `Pods/.symlinks/plugins/firebase_auth-0.5.5/ios`)
   - firebase_core (from `Pods/.symlinks/plugins/firebase_core-0.2.3/ios`)
-  - firebase_database (from `Pods/.symlinks/plugins/firebase_database-0.4.5/ios`)
+  - firebase_database (from `Pods/.symlinks/plugins/firebase_database-0.4.6/ios`)
   - Flutter (from `Pods/.symlinks/flutter/ios`)
 
 EXTERNAL SOURCES:
@@ -66,7 +66,7 @@ EXTERNAL SOURCES:
   firebase_core:
     :path: Pods/.symlinks/plugins/firebase_core-0.2.3/ios
   firebase_database:
-    :path: Pods/.symlinks/plugins/firebase_database-0.4.5/ios
+    :path: Pods/.symlinks/plugins/firebase_database-0.4.6/ios
   Flutter:
     :path: Pods/.symlinks/flutter/ios
 

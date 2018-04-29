@@ -1,9 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:ourlist_flutter/firebase/updatelistener.dart';
+import 'package:ourlist_flutter/firebase/maincontroller.dart';
 import 'package:ourlist_flutter/mainlist/addmainitem.dart';
 import 'package:ourlist_flutter/mainlist/mainlist.dart';
 
@@ -27,15 +26,14 @@ class OurListApp extends StatefulWidget {
   createState() => new OurListAppState();
 }
 
-final reference = FirebaseDatabase.instance.reference().child("projects");
-
 class OurListAppState extends State<OurListApp> {
 
   final List<MainItem> _mainItems = [];
 
+  MainController mainController;
+
   OurListAppState() {
-    // register for change events
-    new UpdateListener(reference, _fetchData);
+    mainController = new MainController(update);
   }
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -51,23 +49,30 @@ class OurListAppState extends State<OurListApp> {
 
     _signInAnonymously().then((message) {
       debugPrint(message);
-      _fetchData();
+      mainController.loadItems(loadingCompleted);
     });
   }
 
-  _fetchData() async {
-    DataSnapshot response = await reference.once();
+  void update() {
+    _mainItems.clear();
+    setState(() { });
+  }
+
+  void _loadItemIfNecessary() {
+    if (_mainItems.isEmpty) {
+      mainController.loadItems(loadingCompleted);
+    }
+  }
+
+  void loadingCompleted(List<MainItem> items) {
     setState(() {
-      _mainItems.clear();
-      Map<dynamic, dynamic> map = response.value;
-      map.forEach((key, value) {
-        _mainItems.add(new MainItem(key, value["name"]));
-      });
+      _mainItems.addAll(items);
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    _loadItemIfNecessary();
     return new Scaffold(
         appBar: new AppBar(
           title: new Text('OurList'),
@@ -81,12 +86,6 @@ class OurListAppState extends State<OurListApp> {
     );
   }
 
-  void _addItemCallback(MainItem item) {
-    reference.push().set(<String, dynamic> {
-      "name": item.name,
-      "created": new DateTime.now().millisecondsSinceEpoch
-    });
-  }
 
   void _addItem() {
     Navigator.of(context).push(
@@ -98,7 +97,12 @@ class OurListAppState extends State<OurListApp> {
     );
   }
 
+  void _addItemCallback(MainItem item) {
+    mainController.addItem(item);
+  }
+
+
   void _removeItem(MainItem item) {
-    reference.child(item.firebaseKey).remove();
+    mainController.removeItem(item);
   }
 }

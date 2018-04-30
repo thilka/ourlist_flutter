@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'detailsitem.dart';
 
-typedef void AddCallback(String input);
+typedef void InputCallback(String input);
 
 class DetailsList extends StatefulWidget {
   DetailsList({Key key,
@@ -13,9 +13,9 @@ class DetailsList extends StatefulWidget {
   });
 
   final List<DetailsItem> items;
-  final AddCallback addCallback;
+  final InputCallback addCallback;
   final bool editMode;
-  final AddCallback editCallback;
+  final InputCallback editCallback;
   @override
   createState() => new _DetailsListState();
 }

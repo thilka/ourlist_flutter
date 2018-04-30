@@ -42,13 +42,16 @@ class _DetailsListPageState extends State<DetailsListPage> {
       appBar: new AppBar(
         title: new Text('$text'),
         actions: <Widget>[
-          new IconButton(icon: new Icon(Icons.add, color: Colors.white,), onPressed: _addItem)
+          editMode ?
+            new IconButton(icon: new Icon(Icons.check, color: Colors.white,), onPressed: () { _addCallback(input); }) :
+            new IconButton(icon: new Icon(Icons.add, color: Colors.white,), onPressed: _addItem)
+
         ],
       ),
       body: new Center(
           child: loading ?
             new CircularProgressIndicator() :
-            new DetailsList(items: items, addCallback: _addCallback, editMode: editMode)
+            new DetailsList(items: items, addCallback: _addCallback, editMode: editMode, editCallback: _editCallback)
       )
     );
   }
@@ -89,5 +92,10 @@ class _DetailsListPageState extends State<DetailsListPage> {
   void _addCallback(String input) {
     controller.add(input);
     editMode = false;
+  }
+
+  String input;
+  void _editCallback(String input) {
+    this.input = input;
   }
 }

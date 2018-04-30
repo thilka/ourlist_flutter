@@ -9,11 +9,13 @@ class DetailsList extends StatefulWidget {
     @required this.items,
     @required this.addCallback,
     @required this.editMode,
+    @required this.editCallback
   });
 
   final List<DetailsItem> items;
   final AddCallback addCallback;
   final bool editMode;
+  final AddCallback editCallback;
   @override
   createState() => new _DetailsListState();
 }
@@ -24,7 +26,6 @@ class _DetailsListState extends State<DetailsList> {
 
   @override
   Widget build(BuildContext context) {
-
     final List<DetailsItemWidget> items = [];
     widget.items.forEach((detailsItem) {
       items.add(new DetailsItemWidget(detailsItem: detailsItem));
@@ -36,7 +37,8 @@ class _DetailsListState extends State<DetailsList> {
       tiles: items,
     ).toList();
 
-    var listView = new ListView(children: divided, controller: _scrollController,);
+    var listView = new ListView(
+      children: divided, controller: _scrollController,);
 
     if (widget.editMode) {
       divided.insert(0, createInputField);
@@ -51,6 +53,7 @@ class _DetailsListState extends State<DetailsList> {
       title: new TextField(
         autofocus: true,
         onSubmitted: _inputSubmitted,
+        onChanged: _inputChanged,
       ),
     );
   }
@@ -67,5 +70,9 @@ class _DetailsListState extends State<DetailsList> {
     setState(() {
       widget.addCallback(input);
     });
+  }
+
+  void _inputChanged(String input) {
+    widget.editCallback(input);
   }
 }

@@ -26,6 +26,9 @@ class MainController {
   }
 
   void addItem(MainItem item) {
+    if (item == null || item.name == null || item.name.isEmpty) {
+      return;
+    }
     reference.push().set(<String, dynamic> {
       "name": item.name,
       "created": new DateTime.now().millisecondsSinceEpoch

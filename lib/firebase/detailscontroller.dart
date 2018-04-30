@@ -37,6 +37,9 @@ class DetailsController {
   }
 
   void add(String input) {
+    if (input == null || input.isEmpty) {
+      return;
+    }
     _ref.reference().push().set(<String, dynamic> {
       "name": input,
       "project": _parentFirebaseKey,

@@ -91,7 +91,7 @@ class OurListAppState extends State<OurListApp> {
         body: new Center(
           child: loading ?
             new CircularProgressIndicator() :
-            new MainList(items: _mainItems, removeCallback: _removeItem)
+            new MainList(items: _mainItems, dismissItemCallback: _removeItem)
           )
     );
   }

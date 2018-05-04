@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:ourlist_flutter/items/dismissibleitem.dart';
 import 'package:ourlist_flutter/items/item.dart';
 
 typedef void CheckedCallback(String firebaseKey, bool checked);
@@ -13,12 +14,11 @@ class DetailsItem extends Item {
   final dismissCallback;
 }
 
-
 class DetailsItemWidget extends StatelessWidget {
   DetailsItemWidget({Key key,
     @required this.detailsItem});
 
-  final detailsItem;
+  final DetailsItem detailsItem;
 
   @override
   Widget build(BuildContext context) {
@@ -31,24 +31,7 @@ class DetailsItemWidget extends StatelessWidget {
       ),
       color: detailsItem.checked ? Colors.lightGreen : null,
     );
-    return new Dismissible(
-        key: new Key(detailsItem.name),
-        child: tile,
-        direction: DismissDirection.endToStart,
-        background: new Container(
-          padding: const EdgeInsets.all(16.0),
-          child: new Row(
-            children: <Widget>[
-              new Expanded(
-                child: new Text(''),
-              ),
-              new Icon(Icons.delete_forever, color: Colors.white),
-            ],
-          ),
-          color: Colors.red
-        ),
-        onDismissed: (DismissDirection direction) { detailsItem.dismissCallback(this.detailsItem); }
-    );
+    return new DismissibleItem(item: detailsItem, tile: tile, dismissItemCallback:detailsItem.dismissCallback);
   }
 
   void _onValueChanged(bool newValue) {

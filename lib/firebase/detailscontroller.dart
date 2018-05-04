@@ -1,6 +1,7 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:ourlist_flutter/details/detailsitem.dart';
 import 'package:ourlist_flutter/firebase/updatelistener.dart';
+import 'package:ourlist_flutter/items/item.dart';
 
 typedef UpdateCallback();
 typedef LoadingCompleted(List<DetailsItem> items);
@@ -47,7 +48,7 @@ class DetailsController {
     });
   }
 
-  void _dismissItem(DetailsItem item) {
+  void _dismissItem(Item item) {
     _ref.reference().child(item.firebaseKey).remove();
   }
 

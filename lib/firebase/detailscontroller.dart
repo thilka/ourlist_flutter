@@ -24,7 +24,7 @@ class DetailsController {
         if (map != null) {
           map.forEach((key, value) {
             var item = new DetailsItem(
-                text: value["name"],
+                name: value["name"],
                 checked: value["done"],
                 firebaseKey: key,
                 checkedCallback: _checkedCallback,

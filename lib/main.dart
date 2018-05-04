@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:ourlist_flutter/firebase/maincontroller.dart';
+import 'package:ourlist_flutter/items/item.dart';
 import 'package:ourlist_flutter/mainlist/addmainitem.dart';
 import 'package:ourlist_flutter/mainlist/mainlist.dart';
 
@@ -28,7 +29,7 @@ class OurListApp extends StatefulWidget {
 
 class OurListAppState extends State<OurListApp> {
 
-  final List<MainItem> _mainItems = [];
+  final List<Item> _mainItems = [];
 
   MainController mainController;
 
@@ -66,7 +67,7 @@ class OurListAppState extends State<OurListApp> {
     }
   }
 
-  void loadingCompleted(List<MainItem> items) {
+  void loadingCompleted(List<Item> items) {
     setState(() {
       _mainItems.clear();
       _mainItems.addAll(items);
@@ -95,7 +96,6 @@ class OurListAppState extends State<OurListApp> {
     );
   }
 
-
   void _addItem() {
     Navigator.of(context).push(
         new MaterialPageRoute(
@@ -106,12 +106,11 @@ class OurListAppState extends State<OurListApp> {
     );
   }
 
-  void _addItemCallback(MainItem item) {
+  void _addItemCallback(Item item) {
     mainController.addItem(item);
   }
 
-
-  void _removeItem(MainItem item) {
+  void _removeItem(Item item) {
     mainController.removeItem(item);
   }
 }

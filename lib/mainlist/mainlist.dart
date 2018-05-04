@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:ourlist_flutter/details/detailslistpage.dart';
+import 'package:ourlist_flutter/items/item.dart';
 
-class MainItem {
-  final String firebaseKey;
-  final String name;
-  MainItem(this.firebaseKey, this.name);
+class MainItem extends Item {
+  MainItem(firebaseKey, name) : super(firebaseKey: firebaseKey, name: name);
 }
 
-typedef RemoveItemCallback(MainItem itemKey);
+typedef RemoveItemCallback(Item itemKey);
 
 class MainList extends StatefulWidget {
-  MainList({Key key, @required this.items, @required this.removeCallback}) : super(key:key);
+  MainList({Key key, @required this.items, @required this.removeCallback})
+      : super(key:key);
 
-  final List<MainItem> items;
+  final List<Item> items;
   final removeCallback;
 
   @override
@@ -53,7 +53,7 @@ class MainListState extends State<MainList> {
     return list;
   }
 
-  Dismissible _wrapInDismissibleItem(MainItem item, ListTile listItem,
+  Dismissible _wrapInDismissibleItem(Item item, ListTile listItem,
       RemoveItemCallback removeItemCallback) {
     final dismissibleListItem = new Dismissible(
       key: new Key(item.firebaseKey),
@@ -78,7 +78,7 @@ class MainListState extends State<MainList> {
     return dismissibleListItem;
   }
 
-  void _goToDetails(MainItem item) {
+  void _goToDetails(Item item) {
     Navigator.of(context).push(
       new MaterialPageRoute(
         builder: (context) {

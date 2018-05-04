@@ -1,15 +1,13 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:ourlist_flutter/items/item.dart';
 
 typedef void CheckedCallback(String firebaseKey, bool checked);
 
-class DetailsItem {
-  DetailsItem({
-    @required this.firebaseKey, @required this.text, @required this.checked,
-    @required this.checkedCallback, @required this.dismissCallback});
+class DetailsItem extends Item {
+  DetailsItem({@required firebaseKey, @required name,
+    @required this.checked, @required this.checkedCallback, @required this.dismissCallback}) : super(firebaseKey: firebaseKey, name: name);
 
-  final firebaseKey;
-  final String text;
   final checked;
   final checkedCallback;
   final dismissCallback;
@@ -27,14 +25,14 @@ class DetailsItemWidget extends StatelessWidget {
 
     Widget tile = new Container(
       child: new ListTile(
-        title: new Text(detailsItem.text),
+        title: new Text(detailsItem.name),
         leading: new Checkbox(value: detailsItem.checked, onChanged: _onValueChanged),
         onTap: () { _onValueChanged(!detailsItem.checked); },
       ),
       color: detailsItem.checked ? Colors.lightGreen : null,
     );
     return new Dismissible(
-        key: new Key(detailsItem.text),
+        key: new Key(detailsItem.name),
         child: tile,
         direction: DismissDirection.endToStart,
         background: new Container(

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:ourlist_flutter/firebase/detailscontroller.dart';
+import 'package:ourlist_flutter/items/item.dart';
 import 'detailslist.dart';
 import 'detailsitem.dart';
-import 'package:ourlist_flutter/mainlist/mainlist.dart';
 
 class DetailsListPage extends StatefulWidget {
   DetailsListPage({Key key, @required this.item}) : super(key: key);
 
-  final MainItem item;
+  final Item item;
 
   @override
   createState() {
@@ -20,7 +20,7 @@ class _DetailsListPageState extends State<DetailsListPage> {
 
   bool refreshNecessary = true;
   DetailsController controller;
-  _DetailsListPageState(MainItem item) {
+  _DetailsListPageState(Item item) {
     controller = new DetailsController(item.firebaseKey, update);
   }
 
@@ -76,7 +76,7 @@ class _DetailsListPageState extends State<DetailsListPage> {
       items.clear();
       items.addAll(loadedItems);
       items.sort((a, b) {
-        return a.text.toLowerCase().compareTo(b.text.toLowerCase());
+        return a.name.toLowerCase().compareTo(b.name.toLowerCase());
       });
       loading = false;
       refreshNecessary = false;

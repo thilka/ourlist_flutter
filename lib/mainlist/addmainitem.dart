@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
+import 'package:ourlist_flutter/items/item.dart';
 import 'package:ourlist_flutter/mainlist/mainlist.dart';
 
-typedef MainItemAddedCallback(MainItem item);
+typedef MainItemAddedCallback(Item item);
 
 class AddMainItem extends StatefulWidget {
   final addCallback;

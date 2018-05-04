@@ -1,10 +1,11 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:ourlist_flutter/firebase/updatelistener.dart';
+import 'package:ourlist_flutter/items/item.dart';
 import 'package:ourlist_flutter/mainlist/mainlist.dart';
 
 
 typedef UpdateCallback();
-typedef LoadingCompleted(List<MainItem> items);
+typedef LoadingCompleted(List<Item> items);
 
 class MainController {
 
@@ -25,7 +26,7 @@ class MainController {
     });
   }
 
-  void addItem(MainItem item) {
+  void addItem(Item item) {
     if (item == null || item.name == null || item.name.isEmpty) {
       return;
     }
@@ -35,7 +36,7 @@ class MainController {
     });
   }
 
-  void removeItem(MainItem item) {
+  void removeItem(Item item) {
     reference.child(item.firebaseKey).remove();
   }
 }
